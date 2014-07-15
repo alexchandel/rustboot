@@ -126,7 +126,32 @@ macro_rules! define_reg (
 
 macro_rules! impl_ops (
     ($T:ident, $RHS:ident) => (
-        impl_ops!($T, $RHS, $T, *self, $T)
+        impl core::ops::BitOr<$RHS, $T> for $T {
+            #[inline(always)]
+            fn bitor(&self, other: &$RHS) -> $T {
+                match (*self, other) {
+                    ($T(p), &$RHS(f)) => $T(p | f)
+                }
+            }
+        }
+
+        impl core::ops::BitAnd<$RHS, $T> for $T {
+            #[inline(always)]
+            fn bitand(&self, other: &$RHS) -> $T {
+                match (*self, other) {
+                    ($T(p), &$RHS(f)) => $T(p & f)
+                }
+            }
+        }
+
+        impl core::ops::Sub<$RHS, $T> for $T {
+            #[inline(always)]
+            fn sub(&self, other: &$RHS) -> $T {
+                match (*self, other) {
+                    ($T(flags1), &$RHS(flags2)) => $T(flags1 & !flags2)
+                }
+            }
+        }
     );
 
     ($LHS:ident, $RHS:ident, $T:ident, $e:expr, $X:ident) => (

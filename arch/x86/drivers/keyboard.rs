@@ -3,14 +3,14 @@ use super::keydown;
 
 pub static IRQ: uint = 0x20 + 1;
 
-pub static Layout: &'static str = "\
+pub static Layout: &'static [u8] = b"\
 \x00\x1B1234567890-=\x08\
 \tqwertyuiop[]\n\
 \x00asdfghjkl;'`\
 \x00\\zxcvbnm,./\x00\
 *\x00 ";
 
-static LayoutShift: &'static str = "\
+static LayoutShift: &'static [u8] = b"\
 \x00\x1B!@#$%^&*()_+\x08\
 \tQWERTYUIOP{}\n\
 \x00ASDFGHJKL:\"~\
