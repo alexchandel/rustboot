@@ -1,6 +1,6 @@
 rustboot
 ================================================================================
-A small kernel written in Rust. For a detailed overview and roadmap, [see the Wiki!](https://github.com/alexchandel/rustboot/wiki)
+A small kernel written in Rust. For a detailed overview and roadmap, see the Wiki.
 
 Pictures
 --------------------------------------------------------------------------------
