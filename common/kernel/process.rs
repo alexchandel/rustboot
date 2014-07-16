@@ -35,9 +35,8 @@ impl Process {
             breakpoint();
             // TODO need to store physical address
             mmu::switch_directory(self.paging);
-            asm!("xor %eax, %eax
-                  xor %edx, %edx
-                  jmp *$0" :: "m"(self.eip), "{esp}"(self.esp) :: "volatile")
+            asm!("xor edx, edx
+                  jmp DWORD PTR $0" :: "{eax}"(self.eip), "{esp}"(self.esp) :: "volatile", "intel");
         }
     }
 
