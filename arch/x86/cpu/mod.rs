@@ -176,6 +176,9 @@ impl LocalSegment {
 
 pub static mut desc_table: Option<gdt::Gdt> = None;
 
+/// Initializes the GDT, creates the ISR for breakpoints, calls the mmu::init()
+/// which creates the ISR for Page Faults, and finally creates the ISR for
+/// system calls.
 pub fn init() {
     use cpu::gdt::{Gdt, GdtEntry, SIZE_32, STORAGE, CODE_READ, DATA_WRITE, DPL3};
 
@@ -209,6 +212,12 @@ pub fn init() {
         });
 
         mmu::init();
+
+        // Add the ISR for system calls.
+        kernel::int_table.map(|mut t| {
+            use cpu::exception::{SystemCall, exception_handler};
+            t.set_isr(SystemCall, false, exception_handler());
+        });
     }
 }
 

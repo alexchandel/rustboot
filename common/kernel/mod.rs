@@ -8,6 +8,7 @@ pub mod util;
 pub mod mm;
 pub mod heap;
 mod process;
+pub mod syscall;
 #[allow(dead_code)]
 #[allow(non_camel_case_types)]
 mod elf;
@@ -34,4 +35,6 @@ pub fn main() {
     drivers::init();
     elf::exec(&_binary_initram_elf_start);
     extern { static _binary_initram_elf_start: u8; }
+    // The _binary symbol is created by the linker when initram.elf is embedded
+    // as a binary section in kernel.elf.
 }

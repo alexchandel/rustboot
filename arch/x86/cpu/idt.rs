@@ -1,3 +1,5 @@
+//! This module defines the 8-byte entries in the Interrupt Descriptor Table.
+
 use core;
 
 use super::DtReg;
@@ -13,8 +15,8 @@ pub type IdtReg = DtReg<IdtEntry>;
 #[packed]
 pub struct IdtEntry {
     addr_lo: u16,
-    sel: u16,
-    zero: u8,
+    sel: u16,       // a code segment selector in GDT or LDT
+    zero: u8,       // unused, always 0!
     flags: IdtFlags,
     addr_hi: u16
 }
