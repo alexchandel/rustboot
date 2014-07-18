@@ -5,5 +5,5 @@ target/
 *.sublime-*
 
 # Upstream
-libcore
-librlibc
+libcore/libcore
+librlibc/librlibc

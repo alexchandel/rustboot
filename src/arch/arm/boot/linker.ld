@@ -6,7 +6,7 @@ SECTIONS {
     . = 0x10000;
 
     .text : {
-       boot/loader.o
+       build/arm/loader.o
        *(.text .rodata)
     }
 

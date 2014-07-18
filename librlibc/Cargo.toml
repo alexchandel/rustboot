@@ -1,0 +1,9 @@
+[package]
+
+name = "rlibc"
+version = "0.11.0"
+authors = ["various"]
+
+[[lib]]
+name = "rlibc"
+path = "librlibc/lib.rs"

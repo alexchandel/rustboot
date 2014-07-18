@@ -1,0 +1,15 @@
+# intermediates
+*.d
+*.bc
+
+# object files
+*.o
+*.elf
+*.embed
+*.bin
+
+# linker output
+linker.map
+
+# disk images
+*.img
