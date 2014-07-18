@@ -5,7 +5,7 @@ use core::fmt;
 
 use platform::io;
 
-static VIC_INT_ENABLE: *mut u32 = (0x10140000 + 0x010) as *mut u32;
+static VIC_INT_ENABLE: *mut u32 = (0x10140000u + 0x010u) as *mut u32;
 static UART0_IRQ: u8 = 12;
 static VT: *mut u32 = 0 as *mut u32; // WARNING verify should be mutable.
 
@@ -22,7 +22,7 @@ pub enum Int {
 
 fn set_word(vector: u8, instruction: u32) {
     unsafe {
-        volatile_store(offset(VT, vector as int) as *mut u32, instruction);
+        volatile_store(offset(VT as *const u32, vector as int) as *mut u32, instruction);
     }
 }
 
@@ -71,7 +71,7 @@ impl Table {
             ::: "r0", "r1", "r2", "cpsr");
 
             // enable UART0 IRQ [4]
-            *VIC_INT_ENABLE = 1 << UART0_IRQ;
+            *VIC_INT_ENABLE = 1 << UART0_IRQ as uint;
             // enable RXIM interrupt
             *io::UART0_IMSC = 1 << 4;
         }

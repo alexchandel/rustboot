@@ -100,7 +100,7 @@ pub fn switch_directory(dir: Phys<PageDirectory>) {
     unsafe {
         asm!("mcr p15, 0, $0, c3, c0, 0     // load domain access register
               mcr p15, 0, $1, c2, c0, 0     // load page table pointer
-            " :: "r"(cpu_domain), "r"(dir.offset()) : "ip" : "volatile");
+            " :: "r"(cpu_domain), "r"(dir.as_ptr()) : "ip" : "volatile"); // dir.offset()?
     }
 }
 
@@ -137,5 +137,12 @@ impl PageDirectory {
 
     pub unsafe fn clone(&mut self) -> Phys<PageDirectory> {
         Phys::at(self as *mut PageDirectory as uint)
+    }
+}
+
+/// STUB
+pub fn clone_directory() -> Phys<PageDirectory> {
+    unsafe {
+        !fail!("Unimplemented");
     }
 }
