@@ -1,0 +1,16 @@
+[package]
+
+name = "main"
+version = "0.0.0"
+authors = ["various"]
+
+[[lib]]
+name = "main"
+path = "src/lib.rs"
+crate-types = [ "staticlib" ]
+
+[dependencies.core]
+path = "./libcore"
+
+[dependencies.rlibc]
+path = "./librlibc"

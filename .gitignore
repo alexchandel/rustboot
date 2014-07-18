@@ -1,7 +1,9 @@
 config.mk
+target/
 
 # Sublime Text
 *.sublime-*
 
 # Upstream
-common/libcore
+libcore
+librlibc
