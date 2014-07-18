@@ -3,10 +3,6 @@
 #![allow(non_camel_case_types)]
 
 extern "rust-intrinsic" {
-    fn offset<T>(dst: *mut T, offset: int) -> *mut T;
-}
-
-extern "rust-intrinsic" {
     fn offset<T>(dst: *const T, offset: int) -> *const T;
 }
 
@@ -17,7 +13,7 @@ pub extern "C" fn memcpy(dest: *mut u8, src: *const u8, n: int) {
     unsafe {
         let mut i = 0;
         while i < n {
-            *(offset(dest, i) as *mut u8) = *(offset(src, i));
+            *(offset(dest as *const u8, i) as *mut u8) = *(offset(src, i));
             i += 1;
         }
     }
@@ -30,12 +26,12 @@ pub extern "C" fn memmove(dest: *mut u8, src: *const u8, n: int) {
             let mut i = n;
             while i != 0 {
                 i -= 1;
-                *(offset(dest, i) as *mut u8) = *(offset(src, i));
+                *(offset(dest as *const u8, i) as *mut u8) = *(offset(src, i));
             }
         } else { // copy from beginning
             let mut i = 0;
             while i < n {
-                *(offset(dest, i) as *mut u8) = *(offset(src, i));
+                *(offset(dest as *const u8, i) as *mut u8) = *(offset(src, i));
                 i += 1;
             }
         }
@@ -47,7 +43,7 @@ pub extern "C" fn memset(s: *mut u8, c: c_int, n: int) {
     unsafe {
         let mut i = 0;
         while i < n {
-            *(offset(s, i) as *mut u8) = c as u8;
+            *(offset(s as *const u8, i) as *mut u8) = c as u8;
             i += 1;
         }
     }
