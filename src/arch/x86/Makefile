@@ -1,3 +1,6 @@
+# need to create new variable due to semantics of make "recursive variables"
+GCC_PREFIX_2    = $(GCC_PREFIX)i386-elf-
+
 include ../../common/Makefile
 
 -include $(BDIR)/loader.d

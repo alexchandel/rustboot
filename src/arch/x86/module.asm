@@ -3,4 +3,5 @@ global _start
 
 section .text
 _start:
-	jmp $
+	hlt
+	jmp _start

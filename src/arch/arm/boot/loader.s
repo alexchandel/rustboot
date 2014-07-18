@@ -14,3 +14,7 @@ start:
     bl main
 abort:
     b .
+__morestack:
+	b .
+__aeabi_unwind_cpp_pr0:
+	b .

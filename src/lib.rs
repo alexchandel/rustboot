@@ -5,17 +5,20 @@
 
 #[phase(plugin, link)]
 extern crate core;
+#[cfg(target_arch = "arm")]
+extern crate rlibc;
 
 #[cfg(target_arch = "x86")]
 pub use platform::runtime::{memset, memcpy, memmove};
 #[cfg(target_arch = "arm")]
-pub use rust_core::support::{memcpy, memmove};
+pub use rlibc::{memcpy, memmove};
 
 pub use platform::cpu;
 pub use kernel::util;
 
 mod macros;
 
+#[allow(dead_code)]
 pub mod kernel;
 
 #[macro_escape]
@@ -23,7 +26,7 @@ mod rust_core;
 
 #[allow(dead_code)]
 #[cfg(target_arch = "x86")]
-#[path = "../arch/x86/"]
+#[path = "arch/x86/"]
 mod platform {
     pub mod cpu;
     pub mod io;
@@ -33,7 +36,7 @@ mod platform {
 
 #[allow(dead_code)]
 #[cfg(target_arch = "arm")]
-#[path = "../arch/arm/"]
+#[path = "arch/arm/"]
 mod platform {
     pub mod cpu;
     pub mod io;

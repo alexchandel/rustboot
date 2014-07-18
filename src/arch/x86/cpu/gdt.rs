@@ -109,7 +109,7 @@ impl Gdt {
                   mov gs, $1"
                 :: "r"(data), "r"(local)
                 :: "volatile", "intel");
-            asm!("jmp $0, $$.flush; .flush:" :: "Ir"(code) :: "volatile")
+            asm!("jmp $0, $$.flush; .flush:" :: "Ir"(code) :: "volatile", "intel")
         }
     }
 }

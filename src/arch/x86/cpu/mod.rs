@@ -136,6 +136,7 @@ struct IsrCallStack {
 }
 
 impl Context {
+    #[inline(always)]
     unsafe fn save() -> &mut Context {
         let this: &mut Context;
         asm!("push gs
@@ -147,6 +148,7 @@ impl Context {
         this
     }
 
+    #[inline(always)]
     unsafe fn restore() {
         asm!("popa
               .byte 0x1f // pop ds

@@ -35,8 +35,11 @@ impl Process {
             breakpoint();
             // TODO need to store physical address
             mmu::switch_directory(self.paging);
+            println!("About to jump to process... {0:x}", self.eip);
+            println!("with stack... {0:x}", self.esp);
             asm!("xor edx, edx
                   jmp DWORD PTR $0" :: "{eax}"(self.eip), "{esp}"(self.esp) :: "volatile", "intel");
+            println!("Back from jump");
         }
     }
 

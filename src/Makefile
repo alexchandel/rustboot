@@ -1,9 +1,6 @@
 -include ./config.mk
 -include $(BDIR)/main.d
 
-# need to create new variable due to semantics of make "recursive variables"
-GCC_PREFIX_2   ?= $(GCC_PREFIX)
-
 # Opt level set to 2 should be enough.
 ifdef DEBUG
 MAYBE_DEBUG    ?= -g
@@ -15,6 +12,7 @@ MAYBE_CLANG_OPTIMIZE ?= -O2
 endif
 
 RUSTC          ?= $(RUST_ROOT)/bin/rustc
+RUSTCFLAGS_LIB  = --target $(TARGET) -Z no-landing-pads
 RUSTCFLAGS     ?= --target $(TARGET) -Z no-landing-pads $(MAYBE_RUSTC_OPTIMIZE)
 
 # CC is probably defined (as GCC)
@@ -34,11 +32,17 @@ BDIR           ?= ./boot
 DEP_SCRIPT     ?= 's~\($(DEP_KEEP)\)~\n\1~g;s~ \S*$(DEP_RM)\S*~~g;s~\n\($(DEP_KEEP)\)~\1~g'
 
 
+$(BDIR)/libcore.rlib: ../../common/libcore/lib.rs
+	$(RUSTC) $(RUSTCFLAGS_LIB) --out-dir $(BDIR) --dep-info --crate-type=lib $<
+
+$(BDIR)/librlibc.rlib: ../../common/librlibc/lib.rs
+	$(RUSTC) $(RUSTCFLAGS_LIB) --out-dir $(BDIR) --dep-info --crate-type=lib $<
+
 # Compile rustboot. Produce dependency info
-$(BDIR)/main.o: ../../common/lib.rs
+$(BDIR)/main.o: ../../common/lib.rs $(BDIR)/libcore.rlib $(BDIR)/librlibc.rlib
 	$(RUSTC) $(RUSTCFLAGS) -L $(BDIR) --out-dir $(BDIR) --dep-info --emit=obj $<
-	@sed -e $(DEP_SCRIPT) $(BDIR)/main.d > $(BDIR)/main.d.tmp
-	@mv $(BDIR)/main.d.tmp $(BDIR)/main.d		# SED to tmp file for OS X compatibility
+	# @sed -e $(DEP_SCRIPT) $(BDIR)/main.d > $(BDIR)/main.d.tmp
+	# @mv $(BDIR)/main.d.tmp $(BDIR)/main.d		# SED to tmp file for OS X compatibility
 
 # initram
 
