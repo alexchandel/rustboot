@@ -1,6 +1,6 @@
 
 # localized cross-compiled binutils
-GCC_PREFIX_2    = $(GCC_PREFIX)i386-elf-
+GCC_PREFIX      = $(GCC_ROOT)/bin/i386-elf-
 
 TARGET         ?= i686-unknown-linux-gnu
 

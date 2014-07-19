@@ -1,8 +1,9 @@
 
 ### Tools and build directories
 
-CARGO          ?= $(RUST_ROOT)/cargo-build
-CARGOCLEAN     ?= $(RUST_ROOT)/cargo-clean
+RUSTC          ?= $(RUST_ROOT)/bin/rustc
+CARGO          ?= $(CARGO_ROOT)/bin/cargo-build
+CARGOCLEAN     ?= $(CARGO_ROOT)/bin/cargo-clean
 RUSTCFLAGS     ?= --target $(TARGET) --emit=obj $(MAYBE_RUSTC_OPTIMIZE) -Z no-landing-pads
 				# -C llvm-args="-fdata-sections -ffunction-sections -float-abi=hard"
 # RUSTCFLAGS_2 is defined in architecture-specific Makefile
@@ -13,11 +14,11 @@ LLC            ?= $(LLVM_ROOT)/bin/llc
 NASM           ?= nasm
 
 # Cross-compiled binutils
-AR              = $(GCC_PREFIX_2)ar
-AS              = $(GCC_PREFIX_2)as
-LD              = $(GCC_PREFIX_2)ld
-GDB             = $(GCC_PREFIX_2)gdbtui
-OBJCOPY         = $(GCC_PREFIX_2)objcopy
+AR              = $(GCC_PREFIX)ar
+AS              = $(GCC_PREFIX)as
+LD              = $(GCC_PREFIX)ld
+GDB             = $(GCC_PREFIX)gdbtui
+OBJCOPY         = $(GCC_PREFIX)objcopy
 
 BDIR            = build/$(arch)
 TARGETDIR       = ./target/$(TARGET)/release

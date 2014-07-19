@@ -1,6 +1,6 @@
 
 # localized cross-compiled binutils
-GCC_PREFIX_2    = $(GCC_PREFIX)arm-none-eabi-
+GCC_PREFIX      = $(GCC_ROOT)/bin/arm-none-eabi-
 
 TARGET         ?= arm-unknown-linux-gnueabi
 
@@ -11,7 +11,7 @@ LLCFLAGS       ?= -mtriple=$(TARGET) $(MAYBE_OPTIMIZE) \
 
 ASMFLAGS       ?= -g
 
-LDFLAGS        ?=
+LDFLAGS        ?=  --gc-sections
 LDFLAGS_EMBED  ?=
 
 QEMU           ?= qemu-system-arm

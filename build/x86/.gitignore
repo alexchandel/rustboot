@@ -1,9 +1,12 @@
 # intermediates
 *.d
+*.s
+*.ll
 *.bc
 
 # object files
 *.o
+*.a
 *.elf
 *.embed
 *.bin
