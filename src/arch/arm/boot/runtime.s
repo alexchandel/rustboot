@@ -6,9 +6,20 @@
 // Source Licenses. See LICENSE.TXT for details.
 //
 //===----------------------------------------------------------------------===//
+// aeabi_runtime.s
 
         .syntax unified
         .cpu    arm926ej-s
+
+// C++ garbage
+.globl __aeabi_unwind_cpp_pr0
+__aeabi_unwind_cpp_pr0:
+    b .L_return
+
+// C++ garbage 1
+.globl __aeabi_unwind_cpp_pr1
+__aeabi_unwind_cpp_pr1:
+    b .L_return
 
 .globl __aeabi_memset
 __aeabi_memset:

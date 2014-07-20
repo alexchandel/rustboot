@@ -1,26 +1,17 @@
 
 # localized cross-compiled binutils
-GCC_PREFIX      = $(GCC_ROOT)/bin/i386-elf-
-
 TARGET         ?= i686-unknown-linux-gnu
+GCC_TARGET      = i386-elf
 
 RUSTCFLAGS_2   ?=
 
-CFLAGS         ?= -ffreestanding -target $(TARGET) $(MAYBE_CLANG_OPTIMIZE) \
-	$(MAYBE_DEBUG) -fdata-sections -ffunction-sections
-
-ASMFLAGS       ?= -g -f elf32
+NASMFLAGS      ?= -g -f elf32
+LLCFLAGS       ?=
 
 LDFLAGS        ?= -melf_i386 --gc-sections
 LDFLAGS_EMBED  ?= -melf_i386
 
 QEMU           ?= qemu-system-i386
-
-OBJS           ?= $(BDIR)/loader.o $(BDIR)/main.o
-LINK           ?= $(BOOTDIR)/linker.ld $(OBJS) $(BDIR)/initram.elf.embed
-LIBS           ?=
-
-SECTIONS       ?= .text .data .rodata
 
 include src/Makefile
 
@@ -33,6 +24,7 @@ run: all
 	$(QEMU) -fda $(BDIR)/floppy.img
 
 # create Floppy Disk image with MBR by concatenating boot & kernel
+SECTIONS        = .text .data .rodata
 $(BDIR)/kernel.bin: $(BDIR)/kernel.elf
 	$(OBJCOPY) -O binary $(addprefix -j ,$(SECTIONS)) $^ $@
 $(BDIR)/boot.bin: $(BDIR)/kernel.elf

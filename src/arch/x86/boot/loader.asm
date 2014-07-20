@@ -84,8 +84,6 @@ protected_mode:
     ; jump into Rust
     call main
 abort:
-__morestack:
-    jmp $
 
 gdtr:
     dw (gdt_end - gdt) + 1  ; size

@@ -10,7 +10,7 @@ ifdef DEBUG
 MAYBE_DEBUG    ?= -g
 else
 MAYBE_RUSTC_OPTIMIZE ?= --opt-level=3 -Z lto
-MAYBE_CLANG_OPTIMIZE ?= -O2
+MAYBE_CLANG_OPTIMIZE ?= -O3
 endif
 
 CARGO_ROOT     ?= /usr
@@ -27,8 +27,8 @@ include src/arch/$(arch)/Makefile
 $(BDIR)/main.o:
 	$(CARGO) $(RUSTCFLAGS) $(RUSTCFLAGS_2) --verbose --release
 	$(RUSTC) src/lib.rs --crate-name main $(RUSTCFLAGS) $(RUSTCFLAGS_2) --out-dir $(BDIR) -L $(TARGETDIR)/deps
-	# $(AR) x $(TARGETDIR)/libmain.a main.o
-	# mv main.o $(BDIR)
+# $(AR) x $(TARGETDIR)/libmain.a main.o
+# mv main.o $(BDIR)
 
 # assemble main.o or main.s from LLVM main.bc
 $(BDIR)/%.o: $(BDIR)/%.bc
@@ -39,8 +39,10 @@ $(BDIR)/%.s: $(BDIR)/%.bc
 ### Assemble loader & initram
 $(BDIR)/%.o: $(BOOTDIR)/%.s
 	$(AS) $(ASMFLAGS) -o $@ $<
+$(BDIR)/%.o: $(BOOTDIR)/%.S
+	$(CC) $(CFLAGS) -c -o $@ $<
 $(BDIR)/%.o: $(BOOTDIR)/%.asm
-	$(NASM) $(ASMFLAGS) -o $@ $<
+	$(NASM) $(NASMFLAGS) -o $@ $<
 
 $(BDIR)/initram.o: initram/initram.rs
 	$(RUSTC) $(RUSTCFLAGS) $(RUSTCFLAGS_2)  --out-dir $(BDIR) $^

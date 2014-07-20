@@ -1,26 +1,17 @@
 
 # localized cross-compiled binutils
-GCC_PREFIX      = $(GCC_ROOT)/bin/arm-none-eabi-
-
 TARGET         ?= arm-unknown-linux-gnueabi
+GCC_TARGET      = arm-none-eabi
 
 RUSTCFLAGS_2   ?= -C target-cpu=arm926ej-s
 
-LLCFLAGS       ?= -mtriple=$(TARGET) $(MAYBE_OPTIMIZE) \
-	-march=arm -mcpu=arm926ej-s --float-abi=hard -asm-verbose
-
-ASMFLAGS       ?= -g
+NASMFLAGS      ?= -g
+LLCFLAGS       ?= -mtriple=$(TARGET) $(MAYBE_OPTIMIZE) -march=arm -mcpu=arm926ej-s --float-abi=hard -asm-verbose
 
 LDFLAGS        ?=  --gc-sections
 LDFLAGS_EMBED  ?=
 
 QEMU           ?= qemu-system-arm
-
-OBJS           ?= $(BDIR)/loader.o $(BDIR)/aeabi_runtime.o $(BDIR)/main.o
-LINK           ?= $(BOOTDIR)/linker.ld $(OBJS) $(BDIR)/initram.elf.embed
-LIBS           ?=
-
-
 
 include src/Makefile
 
@@ -35,6 +26,7 @@ run: all
 # kernel (binary image)
 $(BDIR)/kernel.bin: $(BDIR)/kernel.elf
 	$(OBJCOPY) -O binary $^ $@
+
 
 
 
