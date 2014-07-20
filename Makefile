@@ -23,7 +23,7 @@ SHELL          ?= /bin/bash
 
 include src/arch/$(arch)/Makefile
 
-# Compile rustboot. Depends on ./src/lib.rs $(TARGETDIR)/deps/libcore.rlib $(TARGETDIR)/deps/librlibc.rlib
+# Compile rustboot
 $(BDIR)/main.o:
 	$(CARGO) $(RUSTCFLAGS) $(RUSTCFLAGS_2) --verbose --release
 	$(RUSTC) src/lib.rs --crate-name main $(RUSTCFLAGS) $(RUSTCFLAGS_2) --out-dir $(BDIR) -L $(TARGETDIR)/deps

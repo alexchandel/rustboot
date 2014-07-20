@@ -1,4 +1,3 @@
-global __morestack
 global abort
 global start
 
@@ -7,7 +6,7 @@ extern main
 section .boot
 use16
 
-; entry point
+; entry point, loaded at 0x7c00
 start:
     ; initialize segment registers
     xor ax, ax
