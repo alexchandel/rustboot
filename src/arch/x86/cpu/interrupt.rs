@@ -74,7 +74,7 @@ pub struct Isr {
 }
 
 impl Isr {
-    pub fn new(val: Int, code: bool) -> &mut Isr {
+    pub fn new<'a>(val: Int, code: bool) -> &'a mut Isr {
         let this: &mut Isr = unsafe { transmute(heap::alloc::<Isr>(1)) };
         *this = Isr {
             push_dummy: if code { 0x90 } else { 0x50 },   // [9]

@@ -137,7 +137,7 @@ struct IsrCallStack {
 
 impl Context {
     #[inline(always)]
-    unsafe fn save() -> &mut Context {
+    unsafe fn save<'a>() -> &'a mut Context {
         let this: &mut Context;
         asm!("push gs
               push fs
@@ -167,7 +167,7 @@ struct LocalSegment {
 
 impl LocalSegment {
     // FIXME: Rust needs address spaces
-    fn get() -> &mut LocalSegment {
+    fn get<'a>() -> &'a mut LocalSegment {
         unsafe {
             let this: &mut LocalSegment;
             asm!("mov $0, dword[gs:0]" : "=r"(this) ::: "volatile", "intel")
